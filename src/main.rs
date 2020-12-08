@@ -1,8 +1,8 @@
 use actix_web::{ post, App, HttpResponse, HttpServer, Responder};
+use serde::{Serialize, Deserialize};
 
 const ANT_HIVE_URL: &str = "0.0.0.0:7070";
 
-// CREATED GLOBAL STATIC ARRAYS, NOT TO ALLOCATE DURING EACH REQUEST:
 const ACTIONS: [&'static str; 5] = ["stay", "move", "eat", "take", "put"];
 const DIRECTIONS: [&'static str; 4] = ["up", "down", "right", "left"];
 
@@ -23,7 +23,7 @@ async fn post_async(req_body: String) -> impl Responder {
     HttpResponse::Ok().body(req_body)
 }
 
-
+#[derive(Serialize, Deserialize)]
 struct Ant {
     pub Id: i32,
     pub Event: String,
@@ -33,18 +33,18 @@ struct Ant {
     pub Payload: i32,
     pub Point: Point
 }
-
+#[derive(Serialize, Deserialize)]
 struct Point {
     pub X: i32,
     pub Y: i32
 }
-
+#[derive(Serialize, Deserialize)]
 struct Order {
     pub AntId: i32,
     pub Action: String,
     pub Direction: String
 }
-
+#[derive(Serialize, Deserialize)]
 struct Request {
     pub Id: String,
     pub Tick: i32,
