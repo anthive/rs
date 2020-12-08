@@ -2,7 +2,6 @@ use actix_web::{ post, App, HttpResponse, HttpServer, Responder};
 use serde::{Serialize, Deserialize};
 
 const ANT_HIVE_URL: &str = "0.0.0.0:7070";
-
 const ACTIONS: [&'static str; 5] = ["stay", "move", "eat", "take", "put"];
 const DIRECTIONS: [&'static str; 4] = ["up", "down", "right", "left"];
 
@@ -19,6 +18,19 @@ async fn main() -> std::io::Result<()> {
 
 #[post("/")]
 async fn post_async(req_body: String) -> impl Responder {
+    // Here desiarilze
+    //let request = &req_body;
+    let ants: Vec<Ant> = Vec::new();
+
+    let order_from_ants: Vec<Order> = ants.iter()
+                            .map(|x| Order {
+                                AntId: x.Id, 
+                                Action: String::from(""), 
+                                Direction: String::from("")})
+                            .collect();
+
+    let responce = Responce {Orders: order_from_ants};
+    // Here serialize 
 
     HttpResponse::Ok().body(req_body)
 }
@@ -49,4 +61,9 @@ struct Request {
     pub Id: String,
     pub Tick: i32,
     pub Ants: Vec<Ant>
+}
+
+#[derive(Serialize, Deserialize)]
+struct Responce {
+    pub Orders: Vec<Order>
 }
