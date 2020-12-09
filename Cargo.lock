@@ -290,6 +290,7 @@ name = "ant_hive_rust"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "rand",
  "serde",
  "serde_json",
 ]

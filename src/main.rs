@@ -1,6 +1,7 @@
-use actix_web::{App, HttpResponse, HttpServer, Responder, body::PrivateHelper, post};
+use actix_web::{App, HttpResponse, HttpServer, Responder,  post};
 use serde::{Serialize, Deserialize};
 use serde_json::Result;
+use rand::seq::SliceRandom;
 
 const ANT_HIVE_URL: &str = "0.0.0.0:7070";
 const ACTIONS: [&'static str; 5] = ["stay", "move", "eat", "take", "put"];
@@ -33,15 +34,14 @@ async fn post_async(req_body: String) -> impl Responder {
     let order_from_ants: Vec<Order> = ants.iter()
                             .map(|x| Order {
                                 antId: x.id,
-                                action: String::from(""),
-                                direction: String::from("")})
+                                action: String::from(*ACTIONS.choose(&mut rand::thread_rng()).unwrap()),
+                                direction: String::from(*DIRECTIONS.choose(&mut rand::thread_rng()).unwrap())})
                             .collect();
 
     let responce = Responce {orders: order_from_ants};
 
     // Here serialize
     let response_body = serde_json::to_string(&responce).unwrap();
-
     HttpResponse::Ok().body(response_body)
 }
 
