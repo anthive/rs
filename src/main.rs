@@ -22,22 +22,16 @@ async fn main() -> std::io::Result<()> {
 async fn post_async(req_body: String) -> impl Responder {
 
     // Here desiarilze
-    let request: Request = match get_ant_vector(&req_body) {
+    let request: Request = match deserialize_request(&req_body) {
         Err(_) => Request {id: String::from(""), tick: -1, ants: Vec::new()},
         Ok(ok_ants) => ok_ants
     };
 
-    let ants = request.ants;
-
-    // if ants.capacity() == 0 {
-    //     return HttpResponse::BadRequest().body("{\"error\": \"ant count is 0\"}")
-    // }
-
-    let order_from_ants: Vec<Order> = ants.iter()
+    let order_from_ants: Vec<Order> = request.ants.iter()
                             .map(|x| Order {
                                 antId: x.id,
-                                action: String::from(*ACTIONS.choose(&mut rand::thread_rng()).unwrap()),
-                                direction: String::from(*DIRECTIONS.choose(&mut rand::thread_rng()).unwrap())})
+                                act: String::from(*ACTIONS.choose(&mut rand::thread_rng()).unwrap()),
+                                dir: String::from(*DIRECTIONS.choose(&mut rand::thread_rng()).unwrap())})
                             .collect();
 
     let responce = Responce {orders: order_from_ants};
@@ -48,7 +42,7 @@ async fn post_async(req_body: String) -> impl Responder {
 }
 
 
-fn get_ant_vector(request: &String ) -> Result<Request> {
+fn deserialize_request(request: &String ) -> Result<Request> {
     let result: Result<Request> = serde_json::from_str(&*request.to_string());
     result
 }
@@ -73,8 +67,8 @@ struct Point {
 #[derive(Serialize, Deserialize)]
 struct Order {
     pub antId: i32,
-    pub action: String,
-    pub direction: String
+    pub act: String,
+    pub dir: String
 }
 
 #[derive(Serialize, Deserialize)]
