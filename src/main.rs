@@ -22,14 +22,16 @@ async fn main() -> std::io::Result<()> {
 async fn post_async(req_body: String) -> impl Responder {
 
     // Here desiarilze
-    let ants: Vec<Ant> = match get_ant_vector(&req_body) {
-        Err(_) => Vec::new(),
+    let request: Request = match get_ant_vector(&req_body) {
+        Err(_) => Request {id: String::from(""), tick: -1, ants: Vec::new()},
         Ok(ok_ants) => ok_ants
     };
 
-    if ants.capacity() == 0 {
-        return HttpResponse::BadRequest().body("{\"error\": \"ant count is 0\"}")
-    }
+    let ants = request.ants;
+
+    // if ants.capacity() == 0 {
+    //     return HttpResponse::BadRequest().body("{\"error\": \"ant count is 0\"}")
+    // }
 
     let order_from_ants: Vec<Order> = ants.iter()
                             .map(|x| Order {
@@ -46,9 +48,9 @@ async fn post_async(req_body: String) -> impl Responder {
 }
 
 
-fn get_ant_vector(request: &String ) -> Result<Vec<Ant>> {
-    let ants_result: Result<Vec<Ant>> = serde_json::from_str(&*request.to_string());
-    ants_result
+fn get_ant_vector(request: &String ) -> Result<Request> {
+    let result: Result<Request> = serde_json::from_str(&*request.to_string());
+    result
 }
 
 #[derive(Serialize, Deserialize)]
@@ -78,7 +80,7 @@ struct Order {
 #[derive(Serialize, Deserialize)]
 struct Request {
     pub id: String,
-    pub rick: i32,
+    pub tick: i32,
     pub ants: Vec<Ant>
 }
 
