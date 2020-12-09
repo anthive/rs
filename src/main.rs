@@ -28,11 +28,11 @@ async fn post_async(req_body: String) -> impl Responder {
     };
 
     let order_from_ants: Vec<Order> = request.ants.iter()
-                            .map(|x| Order {
-                                antId: x.id,
-                                act: String::from(*ACTIONS.choose(&mut rand::thread_rng()).unwrap()),
-                                dir: String::from(*DIRECTIONS.choose(&mut rand::thread_rng()).unwrap())})
-                            .collect();
+                                                  .map(|ant| Order {
+                                                        antId: ant.id,
+                                                        act: String::from(*ACTIONS.choose(&mut rand::thread_rng()).unwrap()),
+                                                        dir: String::from(*DIRECTIONS.choose(&mut rand::thread_rng()).unwrap())})
+                                                  .collect();
 
     let responce = Responce {orders: order_from_ants};
 
