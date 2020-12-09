@@ -1,4 +1,4 @@
-use actix_web::{ post, App, HttpResponse, HttpServer, Responder};
+use actix_web::{App, HttpResponse, HttpServer, Responder, body::PrivateHelper, post};
 use serde::{Serialize, Deserialize};
 use serde_json::Result;
 
@@ -21,7 +21,14 @@ async fn main() -> std::io::Result<()> {
 async fn post_async(req_body: String) -> impl Responder {
 
     // Here desiarilze
-    let ants = get_ant_vector(&req_body).unwrap();
+    let ants: Vec<Ant> = match get_ant_vector(&req_body) {
+        Err(_) => Vec::new(),
+        Ok(ok_ants) => ok_ants
+    };
+
+    if ants.capacity() == 0 {
+        return HttpResponse::BadRequest().body("{\"error\": \"ant count is 0\"}")
+    }
 
     let order_from_ants: Vec<Order> = ants.iter()
                             .map(|x| Order {
@@ -40,8 +47,8 @@ async fn post_async(req_body: String) -> impl Responder {
 
 
 fn get_ant_vector(request: &String ) -> Result<Vec<Ant>> {
-    let ants: Vec<Ant> = serde_json::from_str(&*request.to_string())?;
-    Ok(ants)
+    let ants_result: Result<Vec<Ant>> = serde_json::from_str(&*request.to_string());
+    ants_result
 }
 
 #[derive(Serialize, Deserialize)]
