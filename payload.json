@@ -5,10 +5,9 @@
     {
       "id": 3,
       "event": "good",
-      "errors": 5,
       "age": 23,
       "health": 9,
-      "payload": 7,
+      "cargo": 7,
       "point":{
         "x": 0,
         "y": 0
@@ -17,10 +16,9 @@
     {
       "id": 1,
       "event": "good",
-      "errors": 5,
       "age": 100,
       "health": 9,
-      "payload": 9,
+      "cargo": 9,
       "point": {
         "x": 3,
         "y": 4
@@ -29,10 +27,9 @@
     {
       "id": 2,
       "event": "good",
-      "errors": 15,
       "age": 73,
       "health": 9,
-      "payload": 3,
+      "cargo": 3,
       "point": {
         "x": 2,
         "y": 4

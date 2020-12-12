@@ -29,7 +29,7 @@ async fn post_async(req_body: String) -> impl Responder {
 
     let order_from_ants: Vec<Order> = request.ants.iter()
                                                   .map(|ant| Order {
-                                                        antId: ant.id,
+                                                        ant_id: ant.id,
                                                         act: String::from(*ACTIONS.choose(&mut rand::thread_rng()).unwrap()),
                                                         dir: String::from(*DIRECTIONS.choose(&mut rand::thread_rng()).unwrap())})
                                                   .collect();
@@ -51,10 +51,9 @@ fn deserialize_request(request: &String ) -> Result<Request> {
 struct Ant {
     pub id: i32,
     pub event: String,
-    pub errors: u32,
     pub age: i32,
     pub health: i32,
-    pub payload: i32,
+    pub cargo: i32,
     pub point: Point
 }
 
@@ -66,7 +65,8 @@ struct Point {
 
 #[derive(Serialize, Deserialize)]
 struct Order {
-    pub antId: i32,
+    #[serde(rename = "antId")]
+    pub ant_id: i32,
     pub act: String,
     pub dir: String
 }
