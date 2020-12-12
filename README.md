@@ -24,7 +24,7 @@ cargo run --release
 It will start localhost server on port :7070
 
 ```
-curl -X 'POST' -d @payload.json http://localhost:7070/run.php
+curl -X 'POST' -d @payload.json http://localhost:7070
 ```
 
 ### [Rules](https://anthive.io/rules/) and [Leaderboard](https://anthive.io/leaderboard/)
