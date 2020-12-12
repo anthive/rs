@@ -23,7 +23,7 @@ async fn post_async(req_body: String) -> impl Responder {
 
     // Here desiarilze
     let request: Request = match deserialize_request(&req_body) {
-        Err(_) => Request {id: String::from(""), tick: -1, ants: Vec::new()},
+        Err(_) => Request {id: String::from(""), tick: 0, ants: Vec::new()},
         Ok(ok_ants) => ok_ants
     };
 

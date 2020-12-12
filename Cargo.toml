@@ -1,9 +1,12 @@
 [package]
 name = "ant_hive_rust"
 version = "0.1.0"
-authors = ["Kivenkantaja Kivenkantaja <bushuevdv@mail.ru>"]
+authors = ["Dima N1ght"]
 edition = "2018"
 
+[[bin]]
+name = "ant_hive_rust"
+path = "./main.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
